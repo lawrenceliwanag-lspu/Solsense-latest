@@ -1,0 +1,162 @@
+"""
+Benchmark script for PackingSolver performance testing
+"""
+import time
+import sys
+import os
+import tracemalloc
+import psutil
+
+# Add parent directory to path to handle imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Create mock config if not available
+try:
+    from config.settings import APP_SETTINGS
+except ModuleNotFoundError:
+    print("Warning: config.settings not found, using default values")
+    # Create a mock module
+    import types
+    config = types.ModuleType('config')
+    settings = types.ModuleType('settings')
+    settings.APP_SETTINGS = {'max_packing_iterations': 100000}
+    config.settings = settings
+    sys.modules['config'] = config
+    sys.modules['config.settings'] = settings
+
+from packing_solver import PackingSolver
+
+def get_memory_usage():
+    """Get current memory usage in MB"""
+    process = psutil.Process()
+    return process.memory_info().rss / (1024 * 1024)  # Convert to MB
+
+def benchmark_packing_solver():
+    """Run performance tests on PackingSolver methods"""
+    
+    print("=" * 60)
+    print("PACKING SOLVER BENCHMARK")
+    print("=" * 60)
+    
+    solver = PackingSolver()
+    results = []
+    
+    # Test Case 1: Small land area
+    print("\nTest 1: Small land area (50m x 50m)")
+    land_w, land_h = 50, 50
+    obj_w, obj_h = 1.6, 0.992
+    start_time = time.perf_counter()
+    packed_small = solver.next_fit_shelf_packing(
+        land_width_m=land_w,
+        land_height_m=land_h,
+        obj_width_m=obj_w,
+        obj_height_m=obj_h
+    )
+    end_time = time.perf_counter()
+    elapsed_small = end_time - start_time
+    results.append(("Small Area", elapsed_small))
+    total_area_small = len(packed_small) * obj_w * obj_h
+    print(f"  Object size: {obj_w}m x {obj_h}m ({obj_w * obj_h:.4f} m² each)")
+    print(f"  Land area: {land_w * land_h:.2f} m²")
+    print(f"  Objects packed: {len(packed_small)}")
+    print(f"  Total object area: {total_area_small:.2f} m²")
+    print(f"  Time: {elapsed_small:.6f} seconds")
+    
+    # Test Case 2: Medium land area
+    print("\nTest 2: Medium land area (100m x 100m)")
+    land_w, land_h = 100, 100
+    obj_w, obj_h = 1.6, 0.992
+    start_time = time.perf_counter()
+    packed_medium = solver.next_fit_shelf_packing(
+        land_width_m=land_w,
+        land_height_m=land_h,
+        obj_width_m=obj_w,
+        obj_height_m=obj_h
+    )
+    end_time = time.perf_counter()
+    elapsed_medium = end_time - start_time
+    results.append(("Medium Area", elapsed_medium))
+    total_area_medium = len(packed_medium) * obj_w * obj_h
+    print(f"  Object size: {obj_w}m x {obj_h}m ({obj_w * obj_h:.4f} m² each)")
+    print(f"  Land area: {land_w * land_h:.2f} m²")
+    print(f"  Objects packed: {len(packed_medium)}")
+    print(f"  Total object area: {total_area_medium:.2f} m²")
+    print(f"  Time: {elapsed_medium:.6f} seconds")
+    
+    # Test Case 3: Large land area
+    print("\nTest 3: Large land area (500m x 500m)")
+    land_w, land_h = 500, 500
+    obj_w, obj_h = 1.6, 0.992
+    start_time = time.perf_counter()
+    packed_large = solver.next_fit_shelf_packing(
+        land_width_m=land_w,
+        land_height_m=land_h,
+        obj_width_m=obj_w,
+        obj_height_m=obj_h
+    )
+    end_time = time.perf_counter()
+    elapsed_large = end_time - start_time
+    results.append(("Large Area", elapsed_large))
+    total_area_large = len(packed_large) * obj_w * obj_h
+    print(f"  Object size: {obj_w}m x {obj_h}m ({obj_w * obj_h:.4f} m² each)")
+    print(f"  Land area: {land_w * land_h:.2f} m²")
+    print(f"  Objects packed: {len(packed_large)}")
+    print(f"  Total object area: {total_area_large:.2f} m²")
+    print(f"  Time: {elapsed_large:.6f} seconds")
+    
+    # Test Case 4: Limited number of objects
+    print("\nTest 4: Limited packing (1000 objects on large area)")
+    land_w, land_h = 500, 500
+    obj_w, obj_h = 1.6, 0.992
+    start_time = time.perf_counter()
+    packed_limited = solver.next_fit_shelf_packing(
+        land_width_m=land_w,
+        land_height_m=land_h,
+        obj_width_m=obj_w,
+        obj_height_m=obj_h,
+        num_objects_to_pack=1000
+    )
+    end_time = time.perf_counter()
+    elapsed_limited = end_time - start_time
+    results.append(("Limited Objects", elapsed_limited))
+    total_area_limited = len(packed_limited) * obj_w * obj_h
+    print(f"  Object size: {obj_w}m x {obj_h}m ({obj_w * obj_h:.4f} m² each)")
+    print(f"  Land area: {land_w * land_h:.2f} m²")
+    print(f"  Objects packed: {len(packed_limited)}")
+    print(f"  Total object area: {total_area_limited:.2f} m²")
+    print(f"  Time: {elapsed_limited:.6f} seconds")
+    
+    # Test Case 5: Efficiency calculation
+    print("\nTest 5: Efficiency calculation")
+    start_time = time.perf_counter()
+    efficiency = solver.calculate_packing_efficiency(
+        packed_objects=packed_large,
+        land_width_m=500,
+        land_height_m=500,
+        obj_width_m=1.6,
+        obj_height_m=0.992
+    )
+    end_time = time.perf_counter()
+    elapsed_efficiency = end_time - start_time
+    results.append(("Efficiency Calc", elapsed_efficiency))
+    print(f"  Efficiency: {efficiency['efficiency_percent']:.2f}%")
+    print(f"  Time: {elapsed_efficiency:.6f} seconds")
+    
+    # Summary
+    print("\n" + "=" * 60)
+    print("SUMMARY")
+    print("=" * 60)
+    total_time = sum(r[1] for r in results)
+    for test_name, elapsed in results:
+        print(f"{test_name:20s}: {elapsed:.6f} seconds")
+    print(f"{'TOTAL TIME':20s}: {total_time:.6f} seconds")
+    print("=" * 60)
+    
+    return results
+
+if __name__ == "__main__":
+    try:
+        benchmark_packing_solver()
+    except Exception as e:
+        print(f"Error running benchmark: {e}", file=sys.stderr)
+        sys.exit(1)
