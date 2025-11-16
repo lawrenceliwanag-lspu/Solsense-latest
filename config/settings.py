@@ -54,3 +54,30 @@ RESOURCE_PATHS = {
     'splash_image': "resources/splash.png",
     'interface_bg': "resources/interface_bg.png"
 }
+
+# Font dial sizes
+# FONT_SIZES = {
+#     'header_xl': 17,
+#     'header_large': 15,
+#     'header_medium': 14,
+#     'header_small': 12,
+#     'body_large': 12,
+#     'body_medium': 11,
+#     'body_small': 10,
+#     'body_xsmall': 9,
+#     'display': 26,
+#     'icon_text': 40,
+# }
+
+FONT_SIZES = {
+    'header_xl': 20,
+    'header_large': 18,
+    'header_medium': 16,
+    'header_small': 14,
+    'body_large': 14,
+    'body_medium': 13,
+    'body_small': 12,
+    'body_xsmall': 11,
+    'display': 30,
+    'icon_text': 48,
+}

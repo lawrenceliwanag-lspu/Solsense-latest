@@ -3,7 +3,7 @@ Left control panel with file loading, packing, and results sections
 """
 import tkinter as tk
 from tkinter import ttk
-from config.settings import COLORS, DEFAULT_VALUES
+from config.settings import COLORS, DEFAULT_VALUES, FONT_SIZES
 
 class ControlsPanel:
     def __init__(self, parent_frame, app_callbacks):
@@ -11,7 +11,8 @@ class ControlsPanel:
         self.callbacks = app_callbacks
         self.colors = COLORS
         self.defaults = DEFAULT_VALUES
-        
+        self.fonts = FONT_SIZES
+
         # Create scrollable container
         self._create_scrollable_container()
         
@@ -74,7 +75,7 @@ class ControlsPanel:
             text="Need help? How to get GeoTIFF files",
             bg=self.colors['surface'],
             fg=self.colors['primary'],
-            font=('Segoe UI', 8, 'underline'),
+            font=('Segoe UI', self.fonts['body_small'], 'underline'),
             cursor='hand2'
         )
         tutorial_link.pack(pady=(5, 0))
@@ -86,7 +87,7 @@ class ControlsPanel:
             text="No file loaded",
             bg=self.colors['surface'],
             fg=self.colors['text_secondary'],
-            font=('Segoe UI', 9)
+            font=('Segoe UI', self.fonts['body_medium'])
         )
         self.lbl_file.pack(pady=(0, 0))
     
@@ -135,7 +136,7 @@ class ControlsPanel:
             text="📍 Location Marker",
             bg=self.colors['surface'],
             fg=self.colors['text_primary'],
-            font=('Segoe UI', 9, 'bold')
+            font=('Segoe UI', self.fonts['body_medium'], 'bold')
         )
         marker_title.pack(anchor=tk.W, pady=(0, 5))
 
@@ -144,7 +145,7 @@ class ControlsPanel:
             text="Coordinates: Not set",
             bg=self.colors['surface'],
             fg=self.colors['text_secondary'],
-            font=('Segoe UI', 8)
+            font=('Segoe UI', self.fonts['body_small'])
         )
         self.lbl_marker_coords.pack(anchor=tk.W)
 
@@ -165,7 +166,7 @@ class ControlsPanel:
             text="🏞️ Land Dimensions",
             bg=self.colors['surface'],
             fg=self.colors['text_primary'],
-            font=('Segoe UI', 9, 'bold')
+            font=('Segoe UI', self.fonts['body_medium'], 'bold')
         )
         land_title.pack(anchor=tk.W, pady=(0, 10))
 
@@ -173,7 +174,7 @@ class ControlsPanel:
         unit_frame = tk.Frame(land_section, bg=self.colors['surface'])
         unit_frame.pack(fill=tk.X, pady=(0, 8))
         tk.Label(unit_frame, text="Unit:", bg=self.colors['surface'],
-                fg=self.colors['text_primary'], font=('Segoe UI', 8)).pack(side=tk.LEFT)
+                fg=self.colors['text_primary'], font=('Segoe UI', self.fonts['body_small'])).pack(side=tk.LEFT)
         self.land_unit = ttk.Combobox(
             unit_frame, 
             style='Modern.TEntry', 
@@ -189,7 +190,7 @@ class ControlsPanel:
         width_frame = tk.Frame(land_section, bg=self.colors['surface'])
         width_frame.pack(fill=tk.X, pady=(0, 8))
         self.width_label = tk.Label(width_frame, text="Width (m):", bg=self.colors['surface'],
-                fg=self.colors['text_primary'], font=('Segoe UI', 8))
+                fg=self.colors['text_primary'], font=('Segoe UI', self.fonts['body_small']))
         self.width_label.pack(side=tk.LEFT)
         self.entry_land_width = ttk.Entry(width_frame, style='Modern.TEntry', width=15)
         self.entry_land_width.insert(0, self.defaults['land_width'])
@@ -199,7 +200,7 @@ class ControlsPanel:
         height_frame = tk.Frame(land_section, bg=self.colors['surface'])
         height_frame.pack(fill=tk.X, pady=(0, 8))
         self.height_label = tk.Label(height_frame, text="Length/Depth (m):", bg=self.colors['surface'],
-                fg=self.colors['text_primary'], font=('Segoe UI', 8))
+                fg=self.colors['text_primary'], font=('Segoe UI', self.fonts['body_small']))
         self.height_label.pack(side=tk.LEFT)
         self.entry_land_height = ttk.Entry(height_frame, style='Modern.TEntry', width=15)
         self.entry_land_height.insert(0, self.defaults['land_height'])
@@ -215,7 +216,7 @@ class ControlsPanel:
             text="☀️ Panel Specifications",
             bg=self.colors['surface'],
             fg=self.colors['text_primary'],
-            font=('Segoe UI', 9, 'bold')
+            font=('Segoe UI', self.fonts['body_medium'], 'bold')
         )
         panel_title.pack(anchor=tk.W, pady=(0, 10))
 
@@ -223,7 +224,7 @@ class ControlsPanel:
         panel_width_frame = tk.Frame(panel_section, bg=self.colors['surface'])
         panel_width_frame.pack(fill=tk.X, pady=(0, 8))
         tk.Label(panel_width_frame, text="Panel Width (m):", bg=self.colors['surface'],
-                fg=self.colors['text_primary'], font=('Segoe UI', 8)).pack(side=tk.LEFT)
+                fg=self.colors['text_primary'], font=('Segoe UI', self.fonts['body_small'])).pack(side=tk.LEFT)
         self.entry_obj_width = ttk.Entry(panel_width_frame, style='Modern.TEntry', width=15)
         self.entry_obj_width.insert(0, self.defaults['panel_width'])
         self.entry_obj_width.pack(side=tk.RIGHT)
@@ -231,7 +232,7 @@ class ControlsPanel:
         panel_height_frame = tk.Frame(panel_section, bg=self.colors['surface'])
         panel_height_frame.pack(fill=tk.X, pady=(0, 8))
         tk.Label(panel_height_frame, text="Panel Height (m):", bg=self.colors['surface'],
-                fg=self.colors['text_primary'], font=('Segoe UI', 8)).pack(side=tk.LEFT)
+                fg=self.colors['text_primary'], font=('Segoe UI', self.fonts['body_small'])).pack(side=tk.LEFT)
         self.entry_obj_height = ttk.Entry(panel_height_frame, style='Modern.TEntry', width=15)
         self.entry_obj_height.insert(0, self.defaults['panel_height'])
         self.entry_obj_height.pack(side=tk.RIGHT)
@@ -251,7 +252,7 @@ class ControlsPanel:
             text="Packing Mode:",
             bg=self.colors['surface'],
             fg=self.colors['text_primary'],
-            font=('Segoe UI', 8, 'bold')
+            font=('Segoe UI', self.fonts['body_small'], 'bold')
         )
         mode_title.pack(anchor=tk.W, pady=(0, 5))
 
@@ -265,7 +266,7 @@ class ControlsPanel:
             value="fill",
             bg=self.colors['surface'], 
             fg=self.colors['text_primary'],
-            font=('Segoe UI', 8), 
+            font=('Segoe UI', self.fonts['body_small']), 
             selectcolor=self.colors['accent']
         ).pack(anchor=tk.W)
 
@@ -276,14 +277,14 @@ class ControlsPanel:
             value="specify",
             bg=self.colors['surface'], 
             fg=self.colors['text_primary'],
-            font=('Segoe UI', 8), 
+            font=('Segoe UI', self.fonts['body_small']), 
             selectcolor=self.colors['accent']
         ).pack(anchor=tk.W)
 
         num_frame = tk.Frame(radio_frame, bg=self.colors['surface'])
         num_frame.pack(fill=tk.X, padx=20)
         tk.Label(num_frame, text="Number:", bg=self.colors['surface'],
-                fg=self.colors['text_primary'], font=('Segoe UI', 8)).pack(side=tk.LEFT)
+                fg=self.colors['text_primary'], font=('Segoe UI', self.fonts['body_small'])).pack(side=tk.LEFT)
         self.entry_num_objects = ttk.Entry(num_frame, style='Modern.TEntry', width=10)
         self.entry_num_objects.insert(0, self.defaults['num_objects'])
         self.entry_num_objects.pack(side=tk.RIGHT)
@@ -298,7 +299,7 @@ class ControlsPanel:
             text="⚙️ Performance Parameters",
             bg=self.colors['surface'],
             fg=self.colors['text_primary'],
-            font=('Segoe UI', 9, 'bold')
+            font=('Segoe UI', self.fonts['body_medium'], 'bold')
         )
         perf_title.pack(anchor=tk.W, pady=(0, 10))
 
@@ -306,7 +307,7 @@ class ControlsPanel:
         eff_frame = tk.Frame(perf_section, bg=self.colors['surface'])
         eff_frame.pack(fill=tk.X, pady=(0, 8))
         tk.Label(eff_frame, text="Panel Efficiency (%):", bg=self.colors['surface'],
-                fg=self.colors['text_primary'], font=('Segoe UI', 8)).pack(side=tk.LEFT)
+                fg=self.colors['text_primary'], font=('Segoe UI', self.fonts['body_small'])).pack(side=tk.LEFT)
         self.entry_panel_efficiency = ttk.Entry(eff_frame, style='Modern.TEntry', width=15)
         self.entry_panel_efficiency.insert(0, self.defaults['panel_efficiency'])
         self.entry_panel_efficiency.pack(side=tk.RIGHT)
@@ -315,7 +316,7 @@ class ControlsPanel:
         ratio_frame = tk.Frame(perf_section, bg=self.colors['surface'])
         ratio_frame.pack(fill=tk.X, pady=(0, 8))
         tk.Label(ratio_frame, text="Performance Ratio:", bg=self.colors['surface'],
-                fg=self.colors['text_primary'], font=('Segoe UI', 8)).pack(side=tk.LEFT)
+                fg=self.colors['text_primary'], font=('Segoe UI', self.fonts['body_small'])).pack(side=tk.LEFT)
         self.entry_perf_ratio = ttk.Entry(ratio_frame, style='Modern.TEntry', width=15)
         self.entry_perf_ratio.insert(0, self.defaults['performance_ratio'])
         self.entry_perf_ratio.pack(side=tk.RIGHT)
@@ -340,7 +341,7 @@ class ControlsPanel:
             text="📦 Panels Packed: Not calculated",
             bg=self.colors['surface'],
             fg=self.colors['text_secondary'],
-            font=('Segoe UI', 9)
+            font=('Segoe UI', self.fonts['body_medium'])
         )
         self.lbl_panels_packed.pack(anchor=tk.W, pady=(0, 8))
 
@@ -349,7 +350,7 @@ class ControlsPanel:
             text="⚡ Annual Energy: Not calculated",
             bg=self.colors['surface'],
             fg=self.colors['text_secondary'],
-            font=('Segoe UI', 9)
+            font=('Segoe UI', self.fonts['body_medium'])
         )
         self.lbl_annual_energy.pack(anchor=tk.W, pady=(0, 8))
 
@@ -366,7 +367,7 @@ class ControlsPanel:
             text="",
             bg=self.colors['surface'],
             fg=self.colors['text_secondary'],
-            font=('Segoe UI', 8)
+            font=('Segoe UI', self.fonts['body_small'])
         )
         self.lbl_additional_stats.pack(anchor=tk.W)
     

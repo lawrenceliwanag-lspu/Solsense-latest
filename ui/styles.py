@@ -19,7 +19,7 @@ class AppStyles:
         style.configure('Modern.TNotebook.Tab',
                        background=self.colors['background'],
                        foreground=self.colors['text_primary'],
-                       padding=[20, 10],
+                       padding=[20, 12],
                        focuscolor='none')
         style.map('Modern.TNotebook.Tab',
                  background=[('selected', self.colors['primary']),
@@ -33,7 +33,7 @@ class AppStyles:
                        foreground='white',
                        borderwidth=0,
                        focuscolor='none',
-                       padding=[20, 10])
+                       padding=[20, 12])
         style.map('Primary.TButton',
                  background=[('active', self.colors['primary_dark']),
                             ('pressed', self.colors['primary_dark'])])
@@ -43,7 +43,7 @@ class AppStyles:
                        foreground='white',
                        borderwidth=0,
                        focuscolor='none',
-                       padding=[15, 8])
+                       padding=[15, 10])
         style.map('Secondary.TButton',
                  background=[('active', '#F57C00'),
                             ('pressed', '#F57C00')])
@@ -69,7 +69,7 @@ class AppStyles:
                        fieldbackground='white',
                        borderwidth=1,
                        relief='solid',
-                       padding=[10, 8])
+                       padding=[12, 10])
         style.map('Modern.TEntry',
                  fieldbackground=[('readonly', '#f5f5f5')],
                  foreground=[('disabled', '#9e9e9e')],

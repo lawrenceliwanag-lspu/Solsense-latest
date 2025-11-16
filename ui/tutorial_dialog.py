@@ -4,13 +4,14 @@ Tutorial popup dialog for GeoTIFF data acquisition
 import tkinter as tk
 from tkinter import ttk
 import webbrowser
-from config.settings import COLORS
+from config.settings import COLORS, FONT_SIZES
 
 class TutorialDialog:
     def __init__(self, parent):
         self.parent = parent
         self.colors = COLORS
         self.popup = None
+        self.fonts = FONT_SIZES
     
     def show_tutorial(self):
         """Display tutorial popup window"""
@@ -52,7 +53,7 @@ class TutorialDialog:
         header_title = tk.Label(
             header_frame,
             text="How to Download NASADEM Data from OpenTopography",
-            font=('Segoe UI', 14, 'bold'),
+            font=('Segoe UI', self.fonts['header_xl'], 'bold'),
             fg='white',
             bg=self.colors['primary']
         )
@@ -94,7 +95,7 @@ class TutorialDialog:
         intro_text = tk.Label(
             parent,
             text="This tutorial will guide you through downloading NASADEM (NASA Digital Elevation Model) data from OpenTopography.",
-            font=('Segoe UI', 10),
+            font=('Segoe UI', self.fonts['body_large']),
             fg='#333333',
             bg='white',
             justify='left',
@@ -142,10 +143,10 @@ class TutorialDialog:
         link_frame.pack(anchor='w', fill='x', pady=(20, 15))
         
         tk.Label(link_frame, text="OpenTopography website: ", 
-                font=('Segoe UI', 10), fg='#333333', bg='white').pack(side='left')
+                font=('Segoe UI', self.fonts['body_large']), fg='#333333', bg='white').pack(side='left')
         
         opentopo_link = tk.Label(link_frame, text="https://opentopography.org", 
-                                font=('Segoe UI', 10, 'underline'), fg='#2196F3', 
+                                font=('Segoe UI', self.fonts['body_large'], 'underline'), fg='#2196F3', 
                                 bg='white', cursor='hand2')
         opentopo_link.pack(side='left')
         opentopo_link.bind('<Button-1>', lambda e: self._open_url('https://opentopography.org'))
@@ -156,7 +157,7 @@ class TutorialDialog:
         step_title = tk.Label(
             parent,
             text=f"Step {step_num}: {title}",
-            font=('Segoe UI', 12, 'bold'),
+            font=('Segoe UI', self.fonts['header_medium'], 'bold'),
             fg='#2196F3',
             bg='white'
         )
@@ -166,7 +167,7 @@ class TutorialDialog:
         step_text = tk.Label(
             parent,
             text=content,
-            font=('Segoe UI', 10),
+            font=('Segoe UI', self.fonts['body_large']),
             fg='#333333',
             bg='white',
             justify='left',
