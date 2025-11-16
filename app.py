@@ -396,7 +396,7 @@ class GeoTIFFSlopeViewer:
             performance_ratio = float(self.controls['entry_perf_ratio'].get())
             
             # Fetch solar irradiance data
-            self.controls['lbl_annual_energy'].config(text="⚡ Annual Energy: Fetching solar data...")
+            self.controls['lbl_annual_energy'].config(text="⚡ Fetching solar data...")
             self.master.update_idletasks()
             
             lon, lat = self.data_manager.marker_lon_lat
