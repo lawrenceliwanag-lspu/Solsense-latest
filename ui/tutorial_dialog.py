@@ -4,6 +4,7 @@ Tutorial popup dialog for GeoTIFF data acquisition
 import tkinter as tk
 from tkinter import ttk
 import webbrowser
+from PIL import Image, ImageTk
 from config.settings import COLORS, FONT_SIZES
 
 class TutorialDialog:
@@ -151,8 +152,20 @@ class TutorialDialog:
         opentopo_link.pack(side='left')
         opentopo_link.bind('<Button-1>', lambda e: self._open_url('https://opentopography.org'))
     
+    def _load_step_image(self, step_num, size=(600, 300)):
+        """Load and resize step image from resources folder"""
+        try:
+            from PIL import Image, ImageTk
+            image_path = f"resources/step_{step_num}.jpg"
+            image = Image.open(image_path)
+            image = image.resize(size, Image.Resampling.LANCZOS)
+            return ImageTk.PhotoImage(image)
+        except Exception as e:
+            print(f"Error loading step {step_num} image: {e}")
+            return None
+    
     def _add_step(self, parent, step_num, title, content):
-        """Add a tutorial step"""
+        """Add a tutorial step with text and image"""
         # Step title
         step_title = tk.Label(
             parent,
@@ -173,7 +186,34 @@ class TutorialDialog:
             justify='left',
             wraplength=650
         )
-        step_text.pack(anchor='w', pady=(0, 15))
+        step_text.pack(anchor='w', pady=(0, 10))
+        
+        # Load step image
+        step_image = self._load_step_image(step_num)
+        
+        if step_image:
+            # Display image if loaded successfully
+            image_label = tk.Label(parent, image=step_image, bg='white')
+            image_label.pack(anchor='w', pady=(0, 15))
+            image_label.image = step_image  # Keep a reference
+        else:
+            # Show gray placeholder if image not found
+            image_placeholder = tk.Canvas(
+                parent,
+                width=600,
+                height=300,
+                bg='#D3D3D3',
+                highlightthickness=1,
+                highlightbackground='#999999'
+            )
+            image_placeholder.pack(anchor='w', pady=(0, 15))
+            
+            image_placeholder.create_text(
+                300, 150,
+                text=f"Step {step_num} Screenshot Placeholder",
+                font=('Segoe UI', 12),
+                fill='#666666'
+            )
     
     def _create_button_frame(self):
         """Create button frame with close button"""
